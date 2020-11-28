@@ -6,6 +6,7 @@ import { Chat } from '../../components/chat/Chat';
 import { AttachmentsMenu } from '../../components/menu/Menu';
 import { MicIcon, PaperPlaneIcon, PlusIcon } from '../../components/icon/Icon';
 import { Message } from '../../data/data';
+import Header from '../../components/header/Header';
 import { images } from '../../styles/Images';
 
 const initialMessages: Message[] = [
@@ -68,6 +69,9 @@ export default (): React.ReactElement => {
 
   return (
     <React.Fragment>
+      <Header
+        title='Chat'
+      />
       <Chat
         style={styles.list}
         contentContainerStyle={styles.listContent}
@@ -79,7 +83,7 @@ export default (): React.ReactElement => {
         offset={keyboardOffset}>
         <Button
           style={[styles.iconButton, styles.attachButton]}
-          icon={PlusIcon}
+          accessoryLeft={PlusIcon}
           onPress={toggleAttachmentsMenu}
         />
         <Input
@@ -87,12 +91,12 @@ export default (): React.ReactElement => {
           placeholder='Message...'
           value={message}
           onChangeText={setMessage}
-          icon={MicIcon}
+          accessoryLeft={MicIcon}
         />
         <Button
           appearance='ghost'
           style={[styles.iconButton, styles.sendButton]}
-          icon={PaperPlaneIcon}
+          accessoryLeft={PaperPlaneIcon}
           disabled={!sendButtonEnabled()}
           onPress={onSendButtonPress}
         />
