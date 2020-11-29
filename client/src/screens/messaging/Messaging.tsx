@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useStore, useSelector } from 'react-redux';
 import { ImageSourcePropType, Keyboard, Platform } from 'react-native';
 import { Button, Input } from '@ui-kitten/components';
 import { KeyboardAvoidingView } from '../../components/keyboard/KeyboardAvoidingView';
@@ -7,7 +7,9 @@ import { Chat } from '../../components/chat/Chat';
 import { AttachmentsMenu } from '../../components/menu/Menu';
 import { MicIcon, PaperPlaneIcon, PlusIcon } from '../../components/icon/Icon';
 import { Message } from '../../data/data';
-import { getMessages, completeMessage, addMessage } from '../../store/actions/Message';
+import { 
+  getChatByRoom
+} from '../../store/actions/Chat';
 import { 
   Header,
   HeaderBackAction
@@ -39,17 +41,14 @@ const keyboardOffset = (height: number): number => Platform.select({
 });
 
 interface IMessageProps {
-  getMessages: () => void;
-  completeMessage: () => void;
-  addMessage: () => void;
+  getChatByRoom: (e: string) => void;
 }
 
 const Messaging  = ({
-  getMessages,
-  completeMessage,
-  addMessage
+  getChatByRoom
 }: IMessageProps): React.ReactElement => {
 
+  const { room } = useSelector((state: any) => state.Chat);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [message, setMessage] = useState<string>(null);
   const [attachmentsMenuVisible, setAttachmentsMenuVisible] = useState<boolean>(false);
@@ -63,12 +62,12 @@ const Messaging  = ({
   };
 
   const onSendButtonPress = (): void => {
-    addMessage()
+    //addMessage()
     setMessages([...messages, new Message(message, 'now', true, null)]);
     setMessage(null);
     Keyboard.dismiss();
   };
-  console.log(message)
+  
   const renderAttachmentsMenu = (): React.ReactElement => (
     <AttachmentsMenu
       attachments={galleryAttachments}
@@ -84,10 +83,10 @@ const Messaging  = ({
 
   useEffect(() => {
     return () => {
-      getMessages()
+      getChatByRoom(room)
     };
   }, [])
-
+  console.log(useStore().getState())
   return (
     <React.Fragment>
       <Header
@@ -134,9 +133,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getMessages: () => dispatch(getMessages()),
-    completeMessage: id => dispatch(completeMessage(id)),
-    addMessage: text => dispatch(addMessage(text))
+    getChatByRoom: (e: string) => dispatch(getChatByRoom(e)),
   };
 }
 

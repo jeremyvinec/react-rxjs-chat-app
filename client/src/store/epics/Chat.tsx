@@ -7,6 +7,7 @@ import * as Api from '../../controllers/ChatControllers';
 
 import {
   SAVE_CHAT,
+  GET_CHAT_BY_ROOM
 } from '../constants/actionTypes';
 
 import { 
@@ -16,10 +17,18 @@ import {
 const saveChatEpic = (action$: any) =>
   action$.pipe(
     ofType(SAVE_CHAT),
-    flatMap(action => Api.saveChat(action.payload)),
+    flatMap((action: any) => Api.saveChat(action.payload)),
     map(message => saveChatSuccess(message))
+  );
+
+const getChatByRoomEpic = (action$: any) =>
+  action$.pipe(
+    ofType(GET_CHAT_BY_ROOM),
+    flatMap((action: any) => Api.getChatByRoom(action.payload)),
+    map(({ message }: any) => console.log(message)) // getMessagesSuccess(message)
   );
 
 export {
   saveChatEpic,
+  getChatByRoomEpic
 }

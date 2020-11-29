@@ -1,6 +1,7 @@
 /* CHAT */
 export const SAVE_CHAT = "SAVE_CHAT";
 export const SAVE_CHAT_SUCCESS = "SAVE_CHAT_SUCCESS";
+export const GET_CHAT_BY_ROOM = "GET_CHAT_BY_ROOM";
 
 /* USER */
 export const GET_USER = "GET_USER";

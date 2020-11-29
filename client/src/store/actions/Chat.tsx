@@ -1,6 +1,7 @@
 import { 
   SAVE_CHAT,
-  SAVE_CHAT_SUCCESS
+  SAVE_CHAT_SUCCESS,
+  GET_CHAT_BY_ROOM
 } from '../constants/actionTypes';
 
 //saveChat
@@ -25,7 +26,17 @@ const saveChatSuccess = (payload: string) => {
   };
 }
 
+const getChatByRoom = (payload: string) => {
+  return (dispatch: (arg0: { type: string; payload: string }) => void) => {
+    dispatch({
+      type: GET_CHAT_BY_ROOM,
+      payload
+    });
+  };
+}
+
 export {
   saveChat,
-  saveChatSuccess
+  saveChatSuccess,
+  getChatByRoom
 }
