@@ -1,31 +1,11 @@
 import {
-  GET_USER,
-  GET_USER_SUCCESS,
   GET_MESSAGES,
   GET_MESSAGES_SUCCESS,
   ADD_MESSAGE,
   ADD_MESSAGE_SUCCESS,
   COMPLETE_MESSAGE,
   COMPLETE_MESSAGE_SUCCESS
-} from '../../constants/actionTypes';
-
-const getUser = (message: string) => {
-  return (dispatch: (arg0: { type: string; message: string }) => void) => {
-    dispatch({
-      type: GET_USER,
-      message
-    });
-  };
-}
-
-const getUserSuccess = (message: string) => {
-  return (dispatch: (arg0: { type: string; message: string }) => void) => {
-    dispatch({
-      type: GET_USER_SUCCESS,
-      message
-    });
-  };
-}
+} from '../constants/actionTypes';
 
 const getMessages = (message: string) => {
   return (dispatch: (arg0: { type: string; message: string }) => void) => {
@@ -82,8 +62,6 @@ const completeMessageSuccess = (message: string) => {
 }
 
 export {
-  getUser,
-  getUserSuccess,
   getMessages,
   getMessagesSuccess,
   addMessage,
