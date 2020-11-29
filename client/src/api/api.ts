@@ -1,21 +1,21 @@
   
 import { pipe, map } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
+import { DEV_API } from '../utils';
 
-const BASE_URL =
-  "https://us-central1-redux-observable-Messages.cloudfunctions.net/api";
-
-export const getUser = () => ajax.getJSON(`${BASE_URL}/user`);
-export const getMessages = () => ajax.getJSON(`${BASE_URL}/message`);
-export const addMessage = (text) =>
+export const getUser = () => ajax.getJSON(`${DEV_API}/user`);
+export const getMessages = () => ajax.getJSON(`${DEV_API}/message`);
+export const addMessage = (text) => {
   ajax({
-    url: `${BASE_URL}/Message`,
+    url: `${DEV_API}/message`,
     method: "POST",
     body: { text }
   }).pipe(map(data => data.response));
+}
 
-export const completeMessage = (id) =>
+export const completeMessage = (id) => {
   ajax({
-    url: `${BASE_URL}/Message/${id}/complete`,
+    url: `${DEV_API}/message/${id}/complete`,
     method: "POST"
   }).pipe(map(data => data.response));
+}
