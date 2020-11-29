@@ -17,6 +17,7 @@
     "@types/react-redux": "^7.1.11",
     "@ui-kitten/components": "^5.0.0",
     "@ui-kitten/eva-icons": "^5.0.0",
+    "axios": "^0.21.0",
     "react": "16.13.1",
     "react-hook-form": "^6.12.1",
     "react-native": "0.63.3",

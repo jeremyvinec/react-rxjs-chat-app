@@ -1,10 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { 
   Button,
-  CheckBox,
   Input,
-  Text 
 } from '@ui-kitten/components';
 import {
   useForm,
@@ -14,17 +13,11 @@ import {
   ImageOverlay 
 } from '../../../components/overlay/ImageOverlay';
 import { 
-  ProfileAvatar
-} from '../../../components/profile/ProfileAvatar';
-import { 
- FacebookIcon,
- GoogleIcon,
- PersonIcon,
- PlusIcon,
- TwitterIcon ,
  AlertIcon
 } from '../../../components/icon/Icon';
-import Header from '../../../components/header/Header';
+import {
+  Header,
+} from '../../../components/header';
 import { 
   KeyboardAvoidingView
 } from '../../../components/keyboard/3rdParty';
@@ -33,36 +26,25 @@ import {
   config,
   initialState
 } from './Config';
+import { saveChat } from '../../../store/actions/Chat';
 import { images } from '../../../styles/Images';
+import { useNavigation } from '@react-navigation/core';
 
-export default ({ navigation }): React.ReactElement => {
+interface IRegisterProps {
+  saveChat: (e: string) => void;
+}
 
-  const [userName, setUserName] = React.useState<string>();
-  const [email, setEmail] = React.useState<string>();
-  const [password, setPassword] = React.useState<string>();
-  const [termsAccepted, setTermsAccepted] = React.useState<boolean>(false);
-  const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
+const Register = ({
+  saveChat,
+}: IRegisterProps): React.ReactElement => {
+
   const { control, handleSubmit, errors } = useForm();
+  const { navigate } = useNavigation();
 
-  const onSignUpButtonPress = (): void => {
-    navigation && navigation.goBack();
+  const onSubmit = async (data: any) => {
+    saveChat(data)
+    navigate && navigate('Messaging');
   };
-
-  const onSignInButtonPress = (): void => {
-    navigation && navigation.navigate('SignIn4');
-  };
-
-  const onPasswordIconPress = (): void => {
-    setPasswordVisible(!passwordVisible);
-  };
-
-  const renderPhotoButton = (): React.ReactElement => (
-    <Button
-      style={styles.editAvatarButton}
-      size='small'
-      accessoryLeft={PlusIcon}
-    />
-  );
 
   return (
     <KeyboardAvoidingView>
@@ -72,14 +54,6 @@ export default ({ navigation }): React.ReactElement => {
       <ImageOverlay
         style={styles.container}
         source={images.background}>
-        <View style={styles.headerContainer}>
-          <ProfileAvatar
-            style={styles.profileAvatar}
-            resizeMode='center'
-            source={images.person}
-            editButton={renderPhotoButton}
-          />
-        </View>
         <View style={styles.formContainer}>
           {config && Object.keys(initialState).map((id: string) => (
             <Controller
@@ -114,45 +88,22 @@ export default ({ navigation }): React.ReactElement => {
         </View>
         <Button
           style={styles.signUpButton}
-          size='giant'
-          onPress={onSignUpButtonPress}>
-          SIGN UP
-        </Button>
-        <View style={styles.socialAuthContainer}>
-          <Text
-            style={styles.socialAuthHintText}
-            status='control'>
-            Or Register Using Social Media
-          </Text>
-          <View style={styles.socialAuthButtonsContainer}>
-            <Button
-              appearance='ghost'
-              size='giant'
-              status='control'
-              accessoryLeft={FacebookIcon}
-            />
-            <Button
-              appearance='ghost'
-              size='giant'
-              status='control'
-              accessoryLeft={GoogleIcon}
-            />
-            <Button
-              appearance='ghost'
-              size='giant'
-              status='control'
-              accessoryLeft={TwitterIcon}
-            />
-          </View>
-        </View>
-        <Button
-          style={styles.signInButton}
-          appearance='ghost'
-          status='control'
-          onPress={onSignInButtonPress}>
-          Already have account? Sign In
+          size='medium'
+          onPress={handleSubmit(onSubmit)}>
+          SEND
         </Button>
       </ImageOverlay>
     </KeyboardAvoidingView>
   );
 };
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    saveChat: (e: any) => dispatch(saveChat(e)),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Register);

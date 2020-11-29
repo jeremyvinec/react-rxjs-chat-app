@@ -24,7 +24,7 @@ container: {
     borderRadius: 16,
   },
   formContainer: {
-    flex: 1,
+    //flex: 1,
     paddingTop: 32,
     paddingHorizontal: 16,
   },
@@ -38,6 +38,7 @@ container: {
     color: Colors.white,
   },
   signUpButton: {
+    marginTop: 16,
     marginHorizontal: 16,
   },
   signInButton: {

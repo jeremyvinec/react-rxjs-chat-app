@@ -1,3 +1,7 @@
+/* CHAT */
+export const SAVE_CHAT = "SAVE_CHAT";
+export const SAVE_CHAT_SUCCESS = "SAVE_CHAT_SUCCESS";
+
 /* USER */
 export const GET_USER = "GET_USER";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";

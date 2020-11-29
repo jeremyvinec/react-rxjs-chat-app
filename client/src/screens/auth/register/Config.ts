@@ -1,9 +1,18 @@
 export const config: any = {
-  username: {
-    name: 'username',
-    label: 'USERNAME',
-    placeholder: 'username',
-    message: 'Veuillez saisir votre email',
+  room: {
+    name: 'room',
+    label: 'ROOM',
+    placeholder: 'room',
+    message: 'Veuillez saisir un nom',
+    defaultValue: 'chat',
+    secureTextEntry: false,
+    required: true
+  },
+  nickname: {
+    name: 'nickname',
+    label: 'NICKNAME',
+    placeholder: 'nickname',
+    message: 'Veuillez saisir votre surnom',
     defaultValue: 'jeremyvinec',
     secureTextEntry: false,
     required: true
@@ -11,5 +20,6 @@ export const config: any = {
 };
 
 export const initialState = {
-  username: 'jeremyvinec',
+  room: 'room',
+  nickname: 'jeremyvinec'
 };

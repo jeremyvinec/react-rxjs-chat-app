@@ -7,8 +7,12 @@ import {
 import { 
   userEpic,
 } from './User'
+import { 
+  saveChatEpic  
+} from './Chat';
 
 const rootEpic = combineEpics(
+  saveChatEpic,
   userEpic,
   getMessagesEpic,
   addMessageEpic,

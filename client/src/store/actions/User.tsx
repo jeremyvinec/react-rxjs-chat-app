@@ -3,20 +3,20 @@ import {
   GET_USER_SUCCESS,
 } from '../constants/actionTypes';
 
-const getUser = (message: string) => {
-  return (dispatch: (arg0: { type: string; message: string }) => void) => {
+const getUser = (user: string) => {
+  return (dispatch: (arg0: { type: string; user: string }) => void) => {
     dispatch({
       type: GET_USER,
-      message
+      user
     });
   };
 }
 
-const getUserSuccess = (message: string) => {
-  return (dispatch: (arg0: { type: string; message: string }) => void) => {
+const getUserSuccess = (user: string) => {
+  return (dispatch: (arg0: { type: string; user: string }) => void) => {
     dispatch({
       type: GET_USER_SUCCESS,
-      message
+      user
     });
   };
 }

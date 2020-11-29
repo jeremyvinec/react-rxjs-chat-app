@@ -18,6 +18,10 @@ export const MicIcon = (style?: ImageStyle): IconElement => (
   <Icon {...style} name='mic'/>
 );
 
+export const BackIcon = (style?: ImageStyle): IconElement => (
+  <Icon {...style} name='arrow-back'/>
+);
+
 export const AlertIcon = (style?: ImageStyle): IconElement => (
   <Icon {...style} name='alert-circle-outline'/>
 );

@@ -8,7 +8,10 @@ import { AttachmentsMenu } from '../../components/menu/Menu';
 import { MicIcon, PaperPlaneIcon, PlusIcon } from '../../components/icon/Icon';
 import { Message } from '../../data/data';
 import { getMessages, completeMessage, addMessage } from '../../store/actions/Message';
-import Header from '../../components/header/Header';
+import { 
+  Header,
+  HeaderBackAction
+} from '../../components/header';
 import { images } from '../../styles/Images';
 import styles from './MessagingStyle';
 
@@ -89,6 +92,7 @@ const Messaging  = ({
     <React.Fragment>
       <Header
         title='Chat'
+        accessoryLeft={HeaderBackAction}
       />
       <Chat
         style={styles.list}

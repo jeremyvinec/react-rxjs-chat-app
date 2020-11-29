@@ -1,9 +1,6 @@
 import {
-  GET_MESSAGES,
   GET_MESSAGES_SUCCESS,
-  ADD_MESSAGE,
   ADD_MESSAGE_SUCCESS,
-  COMPLETE_MESSAGE,
   COMPLETE_MESSAGE_SUCCESS
 } from '../constants/actionTypes';
 
@@ -11,21 +8,20 @@ const INIT_STATE = {
 
 }
 
-type AuthAction = { type: string, payload: {} | string }
-type State = { user?: {} | null, loading?: boolean, value?: boolean }
+type MessageAction = { type: string, message: {} | string }
 
-const Message = (state = [], action: any) => {
+const Message = (state = [], action: MessageAction) => {
   switch (action.type) {
     case GET_MESSAGES_SUCCESS:
-      return action.payload;
+      return action.message;
     case ADD_MESSAGE_SUCCESS:
-      return [...state, action.payload];
+      return [...state, action.message];
     case COMPLETE_MESSAGE_SUCCESS:
-      return state.map(todo => {
-        if (todo.id === action.payload.id) {
-          return { ...todo, completed: true };
+      return state.map((message: any) => {
+        if (message.id === action.message.id) {
+          return { ...message, completed: true };
         }
-        return todo;
+        return message;
       });
     default:
       return state;
