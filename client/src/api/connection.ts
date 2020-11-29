@@ -17,7 +17,7 @@ const connect$ = socket$
   )
 
 // On connection, listen for event
-export function listenOnConnect(event) {
+const listenOnConnect = (event) => {
   return connect$
     .pipe(
       switchMap(socket =>
@@ -27,7 +27,7 @@ export function listenOnConnect(event) {
 }
 
 // On connection, emit data from observable
-export function emitOnConnect(observable$) {
+const emitOnConnect = (observable$) => {
   return connect$
     .pipe(
       switchMap(socket =>
@@ -37,4 +37,9 @@ export function emitOnConnect(observable$) {
           )
       )
     )
+}
+
+export {
+  listenOnConnect,
+  emitOnConnect
 }

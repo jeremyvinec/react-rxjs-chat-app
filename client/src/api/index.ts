@@ -8,7 +8,7 @@ const username$ = of(getUsername())
 
 // Send username to server
 emitOnConnect(username$)
-  .subscribe(({ socket, data }) => {
+  .subscribe(({ socket, data }: any) => {
     const username = data
     socket.emit('save username', username)
   })
@@ -18,7 +18,7 @@ emitOnConnect(sendMessage$)
   .pipe(
     withLatestFrom(username$)
   )
-  .subscribe(([ { socket, data }, username ]) => {
+  .subscribe(([ { socket, data }, username ]: any) => {
     const [ message, id ] = data
     clearUserInput()
     addMessage(username, message) // Add own chat message to DOM
@@ -27,21 +27,21 @@ emitOnConnect(sendMessage$)
 
 // Listen for chat messages
 listenOnConnect('chat message')
-  .subscribe(({ from, message }) => {
+  .subscribe(({ from, message }: any) => {
     addMessage(from, message)
   })
 
 // Listen for list of all connected users
 listenOnConnect('all users')
-  .subscribe(users => {
+  .subscribe((users: any) => {
     clearUsers()
     addUser('everyone', 'Everyone')
-    users.forEach(({ id, username }) => addUser(id, username))
+    users.forEach(({ id, username }: any) => addUser(id, username))
   })
 
 // Listen for new users
 listenOnConnect('new user')
-  .subscribe(({ id, username }) => {
+  .subscribe(({ id, username }: any) => {
     addUser(id, username)
   })
 
