@@ -1,16 +1,18 @@
 import { combineEpics } from 'redux-observable';
 import { 
-  userEpic,
-  getTodosEpic,
-  addTodoEpic,
-  completeTodoEpic
+  getMessagesEpic,
+  addMessageEpic,
+  completeMessageEpic
 } from './Message'
+import { 
+  userEpic,
+} from './User'
 
 const rootEpic = combineEpics(
   userEpic,
-  getTodosEpic,
-  addTodoEpic,
-  completeTodoEpic
+  getMessagesEpic,
+  addMessageEpic,
+  completeMessageEpic
 );
 
 export {

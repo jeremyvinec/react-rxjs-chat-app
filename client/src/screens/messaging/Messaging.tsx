@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { ImageSourcePropType, Keyboard, Platform } from 'react-native';
 import { Button, Input } from '@ui-kitten/components';
 import { KeyboardAvoidingView } from '../../components/keyboard/KeyboardAvoidingView';
@@ -6,6 +7,7 @@ import { Chat } from '../../components/chat/Chat';
 import { AttachmentsMenu } from '../../components/menu/Menu';
 import { MicIcon, PaperPlaneIcon, PlusIcon } from '../../components/icon/Icon';
 import { Message } from '../../data/data';
+import { getMessages, completeMessage, addMessage } from '../../store/actions/Message';
 import Header from '../../components/header/Header';
 import { images } from '../../styles/Images';
 import styles from './MessagingStyle';
@@ -33,11 +35,21 @@ const keyboardOffset = (height: number): number => Platform.select({
   ios: height,
 });
 
-export default (): React.ReactElement => {
+interface IMessageProps {
+  getMessages: () => void;
+  completeMessage: () => void;
+  addMessage: () => void;
+}
 
-  const [messages, setMessages] = React.useState<Message[]>(initialMessages);
-  const [message, setMessage] = React.useState<string>(null);
-  const [attachmentsMenuVisible, setAttachmentsMenuVisible] = React.useState<boolean>(false);
+const Messaging  = ({
+  getMessages,
+  completeMessage,
+  addMessage
+}: IMessageProps): React.ReactElement => {
+
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [message, setMessage] = useState<string>(null);
+  const [attachmentsMenuVisible, setAttachmentsMenuVisible] = useState<boolean>(false);
 
   const sendButtonEnabled = (): boolean => {
     return message && message.length > 0;
@@ -48,6 +60,7 @@ export default (): React.ReactElement => {
   };
 
   const onSendButtonPress = (): void => {
+    addMessage()
     setMessages([...messages, new Message(message, 'now', true, null)]);
     setMessage(null);
     Keyboard.dismiss();
@@ -65,6 +78,12 @@ export default (): React.ReactElement => {
       onDismiss={toggleAttachmentsMenu}
     />
   );
+
+  useEffect(() => {
+    return () => {
+      getMessages()
+    };
+  }, [])
 
   return (
     <React.Fragment>
@@ -104,3 +123,20 @@ export default (): React.ReactElement => {
     </React.Fragment>
   );
 };
+
+const mapStateToProps = (state: any) => {
+  return { message: state.message };
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    getMessages: () => dispatch(getMessages()),
+    completeMessage: id => dispatch(completeMessage(id)),
+    addMessage: text => dispatch(addMessage(text))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Messaging);
