@@ -13,18 +13,14 @@ import {
 const saveChatEpic = (action$: any) =>
   action$.pipe(
     ofType(SAVE_CHAT),
-    flatMap((action: any) => Api.saveChat(action.payload)
-    .pipe(
-      map(res => ({ type: SAVE_CHAT, payload: res.data }))
-    )),
+    flatMap((action: any) => Api.saveChat(action.payload))
   );
 
 const getChatByRoomEpic = (action$: any) =>
   action$.pipe(
     ofType(GET_CHAT_BY_ROOM),
     flatMap((action: any) => Api.getChatByRoom(action.payload))
-    //map(res =>  ({ type: 'GET_CHAT_BY_ROOM_SUCCESS', res }) )
-  )
+  );
 
 export {
   saveChatEpic,

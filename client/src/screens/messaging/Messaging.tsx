@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useStore, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ImageSourcePropType, Keyboard, Platform } from 'react-native';
 import { Button, Input } from '@ui-kitten/components';
 import { KeyboardAvoidingView } from '../../components/keyboard/KeyboardAvoidingView';
 import { Chat } from '../../components/chat/Chat';
 import { AttachmentsMenu } from '../../components/menu/Menu';
 import { MicIcon, PaperPlaneIcon, PlusIcon } from '../../components/icon/Icon';
-import { Message } from '../../data/data';
-import { 
+import {
+  saveChat,
   getChatByRoom
 } from '../../store/actions/Chat';
 import { 
@@ -29,16 +29,11 @@ const keyboardOffset = (height: number): number => Platform.select({
   ios: height,
 });
 
-interface IMessageProps {
-  saveChat: (message: string) => void,
-  getChatByRoom: (room: string) => void;
-}
+interface IMessageProps {};
 
-const Messaging  = ({
-  saveChat,
-  getChatByRoom
-}: IMessageProps): React.ReactElement => {
+const Messaging  = ({}: IMessageProps): React.ReactElement => {
 
+  const dispatch = useDispatch();
   const { user } = useSelector((state: any) => state.User);
   const { chatByRoom } = useSelector((state: any) => state.Chat);
   const [message, setMessage] = useState<string>(null);
@@ -53,7 +48,13 @@ const Messaging  = ({
   };
 
   const onSendButtonPress = (): void => {
-    //saveChat({})
+    dispatch(
+      saveChat({
+        room: user.room,
+        nickname: user.nickname,
+        message: message
+      })
+    )
     //setMessage(null);
     //Keyboard.dismiss();
   };
@@ -72,8 +73,8 @@ const Messaging  = ({
   );
 
   useEffect(() => {
-    getChatByRoom(user.room)
-  }, [])
+    dispatch(getChatByRoom(user.room));
+  }, []);
 
   return (
     <React.Fragment>
@@ -115,14 +116,4 @@ const Messaging  = ({
   );
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    saveChat: (message: string) => dispatch(saveChat(message)),
-    getChatByRoom: (room: string) => dispatch(getChatByRoom(room)),
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Messaging);
+export default Messaging;

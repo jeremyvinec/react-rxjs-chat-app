@@ -1,6 +1,6 @@
 import { Chat } from '../types/ChatType';
 import Axios from  'axios-observable';
-import { map, flatMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DEV_API } from '../utils';
 import * as io from 'socket.io-client';
 const socket = io.io('http://localhost:4000');
@@ -11,10 +11,11 @@ import {
 } from '../store/constants/actionTypes';
 
 const saveChat = (data: Chat) => {
-  //socket.emit('save-message', data);
+  socket.emit('save-message', data);
   return Axios.post(`${DEV_API}`, {
     room: data.room,
-    nickname: data.nickname
+    nickname: data.nickname,
+    message: data.message
   })
 }
 
