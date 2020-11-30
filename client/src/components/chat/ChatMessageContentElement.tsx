@@ -24,7 +24,7 @@ export const ChatMessageContent = (props: ChatMessageContentProps): React.ReactE
     <Text
       style={styles.text}
       status='control'>
-      {children.text}
+      {children.message}
     </Text>
   );
 
@@ -32,7 +32,7 @@ export const ChatMessageContent = (props: ChatMessageContentProps): React.ReactE
     <View
       {...viewProps}
       style={[styles.container, style]}>
-      {children.text && renderText()}
+      {children.message && renderText()}
       {children.attachment && renderAttachment()}
     </View>
   );

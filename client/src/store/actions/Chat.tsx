@@ -1,14 +1,12 @@
 import { 
   SAVE_CHAT,
-  SAVE_CHAT_SUCCESS
+  GET_CHAT_BY_ROOM
 } from '../constants/actionTypes';
-
-//saveChat
 
 type saveChat = { room: string, nickname: string, message: string } ; 
 
-const saveChat = (payload: saveChat) => {
-  return (dispatch: (arg0: { type: string; payload: saveChat }) => void) => {
+const saveChat = (payload: any) => {
+  return (dispatch: (arg0: { type: string; payload: any }) => void) => {
     dispatch({
       type: SAVE_CHAT,
       payload
@@ -16,10 +14,10 @@ const saveChat = (payload: saveChat) => {
   };
 }
 
-const saveChatSuccess = (payload: string) => {
-  return (dispatch: (arg0: { type: string; payload: string }) => void) => {
+const getChatByRoom = (payload: any) => {
+  return (dispatch: (arg0: { type: string; payload: any }) => void) => {
     dispatch({
-      type: SAVE_CHAT_SUCCESS,
+      type: GET_CHAT_BY_ROOM,
       payload
     });
   };
@@ -27,5 +25,5 @@ const saveChatSuccess = (payload: string) => {
 
 export {
   saveChat,
-  saveChatSuccess
+  getChatByRoom
 }

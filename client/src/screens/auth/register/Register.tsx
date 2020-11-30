@@ -26,23 +26,23 @@ import {
   config,
   initialState
 } from './Config';
-import { saveChat } from '../../../store/actions/Chat';
+import { getUser } from '../../../store/actions/User';
 import { images } from '../../../styles/Images';
 import { useNavigation } from '@react-navigation/core';
 
 interface IRegisterProps {
-  saveChat: (e: string) => void;
+  getUser: (e: string) => void;
 }
 
 const Register = ({
-  saveChat,
+  getUser,
 }: IRegisterProps): React.ReactElement => {
 
   const { control, handleSubmit, errors } = useForm();
   const { navigate } = useNavigation();
 
   const onSubmit = async (data: any) => {
-    saveChat(data)
+    getUser(data)
     navigate && navigate('Messaging');
   };
 
@@ -99,7 +99,7 @@ const Register = ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    saveChat: (e: any) => dispatch(saveChat(e)),
+    getUser: (e: any) => dispatch(getUser(e)),
   };
 }
 

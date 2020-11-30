@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ImageSourcePropType, Keyboard, Platform } from 'react-native';
 import { Button, Input } from '@ui-kitten/components';
 import { KeyboardAvoidingView } from '../../components/keyboard/KeyboardAvoidingView';
 import { Chat } from '../../components/chat/Chat';
 import { AttachmentsMenu } from '../../components/menu/Menu';
 import { MicIcon, PaperPlaneIcon, PlusIcon } from '../../components/icon/Icon';
-import { Message } from '../../data/data';
-import { getMessages, completeMessage, addMessage } from '../../store/actions/Message';
+import {
+  saveChat,
+  getChatByRoom
+} from '../../store/actions/Chat';
 import { 
   Header,
   HeaderBackAction
 } from '../../components/header';
 import { images } from '../../styles/Images';
 import styles from './MessagingStyle';
-
-const initialMessages: Message[] = [
-  Message.howAreYou(),
-  Message.imFine(),
-  Message.imFineToo(),
-  Message.walkingWithDog(),
-  Message.imageAttachment1(),
-  Message.imageAttachment2(),
-  Message.canIJoin(),
-  Message.sure(),
-];
 
 const galleryAttachments: ImageSourcePropType[] = [
   images.attachment,
@@ -38,19 +29,13 @@ const keyboardOffset = (height: number): number => Platform.select({
   ios: height,
 });
 
-interface IMessageProps {
-  getMessages: () => void;
-  completeMessage: () => void;
-  addMessage: () => void;
-}
+interface IMessageProps {};
 
-const Messaging  = ({
-  getMessages,
-  completeMessage,
-  addMessage
-}: IMessageProps): React.ReactElement => {
+const Messaging  = ({}: IMessageProps): React.ReactElement => {
 
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: any) => state.User);
+  const { chatByRoom } = useSelector((state: any) => state.Chat);
   const [message, setMessage] = useState<string>(null);
   const [attachmentsMenuVisible, setAttachmentsMenuVisible] = useState<boolean>(false);
 
@@ -63,12 +48,17 @@ const Messaging  = ({
   };
 
   const onSendButtonPress = (): void => {
-    addMessage()
-    setMessages([...messages, new Message(message, 'now', true, null)]);
-    setMessage(null);
-    Keyboard.dismiss();
+    dispatch(
+      saveChat({
+        room: user.room,
+        nickname: user.nickname,
+        message: message
+      })
+    )
+    //setMessage(null);
+    //Keyboard.dismiss();
   };
-  console.log(message)
+  
   const renderAttachmentsMenu = (): React.ReactElement => (
     <AttachmentsMenu
       attachments={galleryAttachments}
@@ -83,10 +73,8 @@ const Messaging  = ({
   );
 
   useEffect(() => {
-    return () => {
-      getMessages()
-    };
-  }, [])
+    dispatch(getChatByRoom(user.room));
+  }, []);
 
   return (
     <React.Fragment>
@@ -98,7 +86,7 @@ const Messaging  = ({
         style={styles.list}
         contentContainerStyle={styles.listContent}
         followEnd={true}
-        data={messages}
+        data={chatByRoom}
       />
       <KeyboardAvoidingView
         style={styles.messageInputContainer}
@@ -128,19 +116,4 @@ const Messaging  = ({
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return { message: state.message };
-}
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    getMessages: () => dispatch(getMessages()),
-    completeMessage: id => dispatch(completeMessage(id)),
-    addMessage: text => dispatch(addMessage(text))
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Messaging);
+export default Messaging;

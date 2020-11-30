@@ -1,8 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { View, ViewProps } from 'react-native';
 import { StyleService, StyleType, Text, TextElement, useStyleSheet } from '@ui-kitten/components';
 import { ChatMessageIndicator } from './ChatMessageIndicator';
 import { Message } from '../../data/data';
+import moment from 'moment';
 
 export interface ChatMessageProps extends ViewProps {
   message: Message;
@@ -16,34 +18,37 @@ export const ChatMessage = (props: ChatMessageProps): React.ReactElement => {
 
   const styles = useStyleSheet(themedStyles);
 
+  const { user } = useSelector((state: any) => state.User);
   const { style, message, shouldShowIndicator, children, ...viewProps } = props;
+
+  const reply = message.nickname === user.nickname ? true : false;
 
   const renderDateElement = (): TextElement => (
     <Text
       style={styles.date}
       appearance='hint'
       category='c2'>
-      {message.date}
+      {moment(message.updated_at).format('hh:mm')}
     </Text>
   );
 
   const renderContentElement = (): React.ReactElement => {
     return children(message, {
-      container: [message.reply ? styles.contentOut : styles.contentIn],
+      container: [reply ? styles.contentOut : styles.contentIn],
     });
   };
 
   const renderIndicator = (): React.ReactElement => (
     <ChatMessageIndicator
-      style={[message.reply ? styles.indicatorOut : styles.indicatorIn, styles.indicator]}
-      reverse={message.reply}
+      style={[reply ? styles.indicatorOut : styles.indicatorIn, styles.indicator]}
+      reverse={reply}
     />
   );
 
   return (
     <View
       {...viewProps}
-      style={[message.reply ? styles.containerOut : styles.containerIn, styles.container, style]}>
+      style={[reply ? styles.containerOut : styles.containerIn, styles.container, style]}>
       {shouldShowIndicator && renderIndicator()}
       {renderContentElement()}
       {renderDateElement()}

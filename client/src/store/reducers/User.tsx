@@ -1,21 +1,24 @@
-import {
-  GET_USER_SUCCESS
+import { 
+  GET_USER,
 } from '../constants/actionTypes';
 
 const INIT_STATE = {
-
+  user: null,
 }
 
-type AuthAction = { type: string, user: {} | string }
-type State = { user?: {} | null, loading?: boolean, value?: boolean }
+type UserAction = { type: string, payload: {} | string }
 
-const User = (state: State = INIT_STATE, action: AuthAction) => {
+const User = (state = INIT_STATE, action: UserAction) => {
   switch (action.type) {
-    case GET_USER_SUCCESS:
-      return action.user;
+    case GET_USER:
+      return {
+        ...state,
+        user: action.payload
+      };
     default:
       return state;
   }
 }
 
 export default User;
+
