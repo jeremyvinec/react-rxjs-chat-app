@@ -17,17 +17,6 @@ import {
 import { images } from '../../styles/Images';
 import styles from './MessagingStyle';
 
-const initialMessages: Message[] = [
-  Message.howAreYou(),
-  Message.imFine(),
-  Message.imFineToo(),
-  Message.walkingWithDog(),
-  Message.imageAttachment1(),
-  Message.imageAttachment2(),
-  Message.canIJoin(),
-  Message.sure(),
-];
-
 const galleryAttachments: ImageSourcePropType[] = [
   images.attachment,
   images.attachement2,
@@ -51,8 +40,7 @@ const Messaging  = ({
 }: IMessageProps): React.ReactElement => {
 
   const { user } = useSelector((state: any) => state.User);
-  const { room } = useSelector((state: any) => state.Chat);
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const { chatByRoom } = useSelector((state: any) => state.Chat);
   const [message, setMessage] = useState<string>(null);
   const [attachmentsMenuVisible, setAttachmentsMenuVisible] = useState<boolean>(false);
 
@@ -65,8 +53,7 @@ const Messaging  = ({
   };
 
   const onSendButtonPress = (): void => {
-    user.room && getChatByRoom(user.room)
-    //setMessages([...messages, new Message(message, 'now', true, null)]);
+    //saveChat({})
     //setMessage(null);
     //Keyboard.dismiss();
   };
@@ -85,10 +72,9 @@ const Messaging  = ({
   );
 
   useEffect(() => {
-    user.room && getChatByRoom(user.room)
+    getChatByRoom(user.room)
   }, [])
-  //console.log(useStore().getState())
-  //console.log(messages)
+
   return (
     <React.Fragment>
       <Header
@@ -99,7 +85,7 @@ const Messaging  = ({
         style={styles.list}
         contentContainerStyle={styles.listContent}
         followEnd={true}
-        data={room} // messages
+        data={chatByRoom}
       />
       <KeyboardAvoidingView
         style={styles.messageInputContainer}

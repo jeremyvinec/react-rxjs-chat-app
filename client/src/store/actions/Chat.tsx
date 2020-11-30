@@ -2,6 +2,7 @@ import {
   SAVE_CHAT,
   GET_CHAT_BY_ROOM
 } from '../constants/actionTypes';
+import { log } from 'util';
 
 type saveChat = { room: string, nickname: string, message: string } ; 
 

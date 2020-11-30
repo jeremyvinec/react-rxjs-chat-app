@@ -21,8 +21,8 @@ export const Chat = (props: ChatProps): React.ReactElement => {
 
   const { followEnd, contentContainerStyle, data, ...listProps } = props;
 
-  const shouldShowMessageIndicator = (message: Message): boolean => {
-    return message.text && message.text.length > 0;
+  const shouldShowMessageIndicator = (item: any): boolean => {
+    return item.message && item.message.length > 0;
   };
 
   const scrollToEnd = (params): void => {
@@ -63,7 +63,7 @@ export const Chat = (props: ChatProps): React.ReactElement => {
   const renderMessageGroup = (info: ListRenderItemInfo<Message[]>): React.ReactElement => (
     <ChatMessageGroup
       style={styles.group}
-      data={info.item}
+      data={[info.item]}
       renderItem={renderMessage}
     />
   );
@@ -72,7 +72,7 @@ export const Chat = (props: ChatProps): React.ReactElement => {
     <List
       ref={listRef}
       {...listProps}
-      data={chatService.createMessageGroups(data)}
+      data={data} // chatService.createMessageGroups(data)
       contentContainerStyle={[styles.contentContainer, contentContainerStyle]}
       onContentSizeChange={onContentSizeChange}
       renderItem={renderMessageGroup}

@@ -1,11 +1,12 @@
 import { 
   SAVE_CHAT,
-  GET_CHAT_BY_ROOM
+  GET_CHAT_BY_ROOM,
+  GET_CHAT_BY_ROOM_SUCCESS
 } from '../constants/actionTypes';
 
 const INIT_STATE = {
   chat: null,
-  room: [],
+  chatByRoom: [],
 }
 
 type ChatAction = { type: string, payload: {} | string }
@@ -20,13 +21,13 @@ const Chat = (state = INIT_STATE, action: ChatAction) => {
     case GET_CHAT_BY_ROOM:
       return {
         ...state,
-        room: action.payload
+        chatByRoom: action.payload
       };
-    case 'GET_CHAT_BY_ROOM_SUCCESS':
-      // todo
+    case GET_CHAT_BY_ROOM_SUCCESS:
+      console.log(action.payload)
       return {
         ...state,
-        room: action.payload
+        chatByRoom: action.payload
       };
     default:
       return state;
