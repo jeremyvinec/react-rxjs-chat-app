@@ -1,10 +1,12 @@
 import { combineEpics } from 'redux-observable';
 import { 
-  saveChatEpic  
+  saveChatEpic,
+  getChatByRoomEpic  
 } from './Chat';
 
 const rootEpic = combineEpics(
   saveChatEpic,
+  getChatByRoomEpic
 );
 
 export {

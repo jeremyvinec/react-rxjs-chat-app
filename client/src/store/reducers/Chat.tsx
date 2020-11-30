@@ -4,17 +4,30 @@ import {
 } from '../constants/actionTypes';
 
 const INIT_STATE = {
-
+  chat: null,
+  room: [],
 }
 
 type ChatAction = { type: string, payload: {} | string }
 
-const Chat = (state = [], action: ChatAction) => {
+const Chat = (state = INIT_STATE, action: ChatAction) => {
   switch (action.type) {
     case SAVE_CHAT:
-      return action.payload;
+      return {
+        ...state,
+        chat: action.payload
+      };
     case GET_CHAT_BY_ROOM:
-      return [...state, action.payload];
+      return {
+        ...state,
+        room: action.payload
+      };
+    case 'GET_CHAT_BY_ROOM_SUCCESS':
+      // todo
+      return {
+        ...state,
+        room: action.payload
+      };
     default:
       return state;
   }

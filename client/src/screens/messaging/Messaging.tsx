@@ -41,13 +41,16 @@ const keyboardOffset = (height: number): number => Platform.select({
 });
 
 interface IMessageProps {
-  getChatByRoom: (e: string) => void;
+  saveChat: (message: string) => void,
+  getChatByRoom: (room: string) => void;
 }
 
 const Messaging  = ({
+  saveChat,
   getChatByRoom
 }: IMessageProps): React.ReactElement => {
 
+  const { user } = useSelector((state: any) => state.User);
   const { room } = useSelector((state: any) => state.Chat);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [message, setMessage] = useState<string>(null);
@@ -62,10 +65,10 @@ const Messaging  = ({
   };
 
   const onSendButtonPress = (): void => {
-    //addMessage()
-    setMessages([...messages, new Message(message, 'now', true, null)]);
-    setMessage(null);
-    Keyboard.dismiss();
+    user.room && getChatByRoom(user.room)
+    //setMessages([...messages, new Message(message, 'now', true, null)]);
+    //setMessage(null);
+    //Keyboard.dismiss();
   };
   
   const renderAttachmentsMenu = (): React.ReactElement => (
@@ -82,11 +85,10 @@ const Messaging  = ({
   );
 
   useEffect(() => {
-    return () => {
-      getChatByRoom(room)
-    };
+    user.room && getChatByRoom(user.room)
   }, [])
-  console.log(useStore().getState())
+  //console.log(useStore().getState())
+  //console.log(messages)
   return (
     <React.Fragment>
       <Header
@@ -97,7 +99,7 @@ const Messaging  = ({
         style={styles.list}
         contentContainerStyle={styles.listContent}
         followEnd={true}
-        data={messages}
+        data={room} // messages
       />
       <KeyboardAvoidingView
         style={styles.messageInputContainer}
@@ -127,17 +129,14 @@ const Messaging  = ({
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return { message: state.message };
-}
-
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getChatByRoom: (e: string) => dispatch(getChatByRoom(e)),
+    saveChat: (message: string) => dispatch(saveChat(message)),
+    getChatByRoom: (room: string) => dispatch(getChatByRoom(room)),
   };
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Messaging);

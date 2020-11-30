@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   TopNavigationAction
 } from '@ui-kitten/components';
@@ -9,14 +10,28 @@ import { useNavigation } from '@react-navigation/core';
 
 const RenderBackActions = () => {
 
-    const { goBack } = useNavigation();
+  const { goBack } = useNavigation();
 
-    return (
-        <TopNavigationAction
-            onPress={() => goBack()}
-            icon={BackIcon}
-        />
-    );
+  const onBack = () => {
+    // todo exit chat
+    goBack();
+  };
+
+   return (
+      <TopNavigationAction
+          onPress={onBack}
+          icon={BackIcon}
+      />
+  );
 };
 
-export default RenderBackActions;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    //getChatByRoom: (e: string) => dispatch(getChatByRoom(e)),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(RenderBackActions);

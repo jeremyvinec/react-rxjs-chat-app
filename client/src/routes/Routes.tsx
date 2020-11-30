@@ -10,12 +10,12 @@ const Stack = createStackNavigator();
 
 export default function Routes() {
 
-  const { room } = useSelector((state: any) => state.Chat);
-
+  const { user } = useSelector((state: any) => state.User);
+  console.log('route', user)
   return (
         <NavigationContainer>
             <Stack.Navigator headerMode='none'>
-                {room ? (
+                {user ? (
                   <Stack.Screen name='Messaging' component={Messaging} />
                 ) : (
                   <Stack.Screen name='Register' component={Register} />

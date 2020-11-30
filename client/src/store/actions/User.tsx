@@ -1,27 +1,17 @@
+
 import {
-  GET_USER,
-  GET_USER_SUCCESS,
+  GET_USER
 } from '../constants/actionTypes';
 
-const getUser = (user: string) => {
-  return (dispatch: (arg0: { type: string; user: string }) => void) => {
+const getUser = (payload) => {
+  return (dispatch: (arg0: { type: string; payload: any }) => void) => {
     dispatch({
       type: GET_USER,
-      user
+      payload
     });
   };
-}
-
-const getUserSuccess = (user: string) => {
-  return (dispatch: (arg0: { type: string; user: string }) => void) => {
-    dispatch({
-      type: GET_USER_SUCCESS,
-      user
-    });
-  };
-}
+};
 
 export {
-  getUser,
-  getUserSuccess
-}
+  getUser
+};

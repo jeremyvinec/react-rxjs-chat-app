@@ -13,7 +13,7 @@ export class ChatService {
     const [firstMessage, ...messages] = source;
 
     let currentGroup: MessageGroup = [firstMessage];
-
+    console.log(messages)
     messages.forEach((message: Message): void => {
       if (this.fitsGroupSafe(message, currentGroup)) {
         currentGroup.push(message);
@@ -22,7 +22,7 @@ export class ChatService {
         currentGroup = [message];
       }
     });
-
+    console.log(currentGroup)
     return [...result, currentGroup];
   };
 
