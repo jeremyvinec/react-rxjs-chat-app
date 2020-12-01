@@ -8,6 +8,7 @@ import { AttachmentsMenu } from '../../components/menu/Menu';
 import { MicIcon, PaperPlaneIcon, PlusIcon } from '../../components/icon/Icon';
 import {
   saveChat,
+  saveChatSuccess,
   getChatByRoom
 } from '../../store/actions/Chat';
 import { 
@@ -16,6 +17,7 @@ import {
 } from '../../components/header';
 import { images } from '../../styles/Images';
 import styles from './MessagingStyle';
+import { socket } from '../../utils';
 
 const galleryAttachments: ImageSourcePropType[] = [
   images.attachment,
@@ -52,11 +54,11 @@ const Messaging  = ({}: IMessageProps): React.ReactElement => {
       saveChat({
         room: user.room,
         nickname: user.nickname,
-        message: message
+        message
       })
-    )
-    //setMessage(null);
-    //Keyboard.dismiss();
+    );
+    setMessage(null);
+    Keyboard.dismiss();
   };
   
   const renderAttachmentsMenu = (): React.ReactElement => (
@@ -73,7 +75,16 @@ const Messaging  = ({}: IMessageProps): React.ReactElement => {
   );
 
   useEffect(() => {
-    dispatch(getChatByRoom(user.room));
+    // get all message on room
+    chatByRoom.length === 0 
+    && user.room 
+    && dispatch(getChatByRoom(user.room));
+    // listen new message on socket
+    socket.on('new-message', (res: any) => {
+      if (res.room === user.room) {
+        dispatch(saveChatSuccess(res));
+      }
+    });
   }, []);
 
   return (

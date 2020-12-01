@@ -2,21 +2,17 @@ import { Chat } from '../types/ChatType';
 import Axios from  'axios-observable';
 import { map } from 'rxjs/operators';
 import { DEV_API } from '../utils';
-import * as io from 'socket.io-client';
-const socket = io.io('http://localhost:4000');
 
 import { 
-  GET_CHAT_BY_ROOM ,
+  SAVE_CHAT_SUCCESS,
   GET_CHAT_BY_ROOM_SUCCESS
 } from '../store/constants/actionTypes';
 
 const saveChat = (data: Chat) => {
-  socket.emit('save-message', data);
-  return Axios.post(`${DEV_API}`, {
-    room: data.room,
-    nickname: data.nickname,
-    message: data.message
-  })
+  return Axios.post(`${DEV_API}`, data)
+  .pipe(
+    map(res => ({ type: SAVE_CHAT_SUCCESS, payload: res.data }))
+  )
 }
 
 const getChatByRoom = (room: string) => {

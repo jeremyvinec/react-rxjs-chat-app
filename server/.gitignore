@@ -1,0 +1,6 @@
+###< ENV ###
+.env
+###< ENV ###
+
+node_modules
+dist
