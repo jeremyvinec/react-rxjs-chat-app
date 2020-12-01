@@ -34,17 +34,6 @@ const server = require('http').createServer(app);
 
 export const io = require('socket.io')(server);
 
-io.on('connection', (socket) => {
-  console.log('User connected');
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-  socket.on('save-message', (data) => {
-    console.log('save-message', data);
-    socket.emit(data);
-  });
-});
-
 export default () => {
   app.listen(PORT, () => {
       // On fait écouter notre serveur sur le port 8080 et on passe un callback

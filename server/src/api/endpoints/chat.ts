@@ -1,9 +1,26 @@
-import { appRouter } from '../../index';
+import { appRouter, io } from '../../index';
 import { Request, Response, NextFunction } from 'express';
 import { error } from '../../utils/logger';
 import { Chat } from '../../models/chat';
 
 export default () => {
+
+  // socket io
+  /*io.on('connection', (socket) => {
+    console.log('User connected');
+    socket.on('disconnect', () => {
+      console.log('User disconnected');
+    });
+    socket.on('save-message', (data) => {
+      console.log(data);
+
+      io.emit('new-message', { message: data });
+    });
+  });*/
+
+  const saveMessage = (res) => {
+    io.emit('new-message', res);
+  };
 
   /* GET ALL CHATS */
   appRouter.get('/:room', async (req: Request, res: Response, next: NextFunction) => {
@@ -40,7 +57,8 @@ export default () => {
   appRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     Chat.create(req.body, (err: any, post: any) => {
       if (err) { return next(err); }
-      console.log(post);
+      // return response on socket
+      saveMessage(post);
       res.json(post);
     });
   });
