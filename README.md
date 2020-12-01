@@ -5,7 +5,7 @@ The database works with MongoDB.
 
 ## Skills
 
-`React Native` `NodeJS` `RxJS` `Redux` `Socket.IO`...
+`React Native` `React Hooks` `NodeJS` `RxJS` `Redux` `Redux-Observable` `Socket.IO` `Axios Observable` `Moment`...
 
 ## Required
 
