@@ -15,6 +15,16 @@ type ChatAction = { type: string, payload: {} | string }
 
 const Chat = (state = INIT_STATE, action: ChatAction) => {
   switch (action.type) {
+    case GET_CHAT_BY_ROOM:
+      return {
+        ...state,
+        chatByRoom: action.payload
+      };
+    case GET_CHAT_BY_ROOM_SUCCESS:
+      return {
+        ...state,
+        chatByRoom: action.payload
+      };
     case SAVE_CHAT:
       return {
         ...state,
@@ -24,17 +34,6 @@ const Chat = (state = INIT_STATE, action: ChatAction) => {
       return {
         ...state,
         chatSuccess: action.payload
-      };
-    case GET_CHAT_BY_ROOM:
-      return {
-        ...state,
-        chatByRoom: action.payload
-      };
-    case GET_CHAT_BY_ROOM_SUCCESS:
-      console.log(action.payload)
-      return {
-        ...state,
-        chatByRoom: action.payload
       };
     default:
       return state;

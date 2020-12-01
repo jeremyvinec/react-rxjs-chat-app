@@ -8,8 +8,6 @@ import {
   GET_CHAT_BY_ROOM
 } from '../constants/actionTypes';
 
-//const getChatByRoom = payload => ({ type: GET_CHAT_BY_ROOM, payload });
-
 const saveChatEpic = (action$: any) =>
   action$.pipe(
     ofType(SAVE_CHAT),

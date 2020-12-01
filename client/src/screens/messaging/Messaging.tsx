@@ -16,6 +16,7 @@ import {
 } from '../../components/header';
 import { images } from '../../styles/Images';
 import styles from './MessagingStyle';
+import { socket } from '../../utils';
 
 const galleryAttachments: ImageSourcePropType[] = [
   images.attachment,
@@ -48,15 +49,21 @@ const Messaging  = ({}: IMessageProps): React.ReactElement => {
   };
 
   const onSendButtonPress = (): void => {
+    socket.emit('save-message', {
+      room: user.room,
+      nickname: user.nickname,
+      message,
+      updated_at: Date.now()
+    })
     dispatch(
       saveChat({
         room: user.room,
         nickname: user.nickname,
-        message: message
+        message
       })
     )
-    //setMessage(null);
-    //Keyboard.dismiss();
+    setMessage(null);
+    Keyboard.dismiss();
   };
   
   const renderAttachmentsMenu = (): React.ReactElement => (
@@ -73,8 +80,15 @@ const Messaging  = ({}: IMessageProps): React.ReactElement => {
   );
 
   useEffect(() => {
-    dispatch(getChatByRoom(user.room));
-  }, []);
+    chatByRoom.length === 0 
+    && user.room 
+    && dispatch(getChatByRoom(user.room));
+    socket.on('new-message', (res: any) => {
+      if (res.room === user.room) {
+        console.log(res)
+      }
+    })
+  }, [message]);
 
   return (
     <React.Fragment>
