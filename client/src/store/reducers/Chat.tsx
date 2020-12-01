@@ -7,13 +7,12 @@ import {
 
 const INIT_STATE = {
   chat: null,
-  chatSuccess: null,
   chatByRoom: [],
 }
 
 type ChatAction = { type: string, payload: {} | string }
 
-const Chat = (state = INIT_STATE, action: ChatAction) => {
+const Chat = (state = INIT_STATE, action: any) => {
   switch (action.type) {
     case GET_CHAT_BY_ROOM:
       return {
@@ -31,9 +30,21 @@ const Chat = (state = INIT_STATE, action: ChatAction) => {
         chat: action.payload
       };
     case SAVE_CHAT_SUCCESS:
-      return {
-        ...state,
-        chatSuccess: action.payload
+      // clone the current state
+      const clone = JSON.parse(JSON.stringify(state.chatByRoom));
+      // check if chet already exist
+      const chatExist = clone.findIndex((i: any) => i._id !== action.payload._id);
+      console.log(chatExist)
+      if (chatExist !== -1) {
+        return {
+          ...state,
+          chatByRoom: [...state.chatByRoom, action.payload]
+        };
+      } else {
+        return {
+          ...state,
+          chatByRoom: clone
+        };
       };
     default:
       return state;

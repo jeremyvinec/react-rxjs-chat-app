@@ -8,6 +8,7 @@ import { AttachmentsMenu } from '../../components/menu/Menu';
 import { MicIcon, PaperPlaneIcon, PlusIcon } from '../../components/icon/Icon';
 import {
   saveChat,
+  saveChatSuccess,
   getChatByRoom
 } from '../../store/actions/Chat';
 import { 
@@ -49,19 +50,13 @@ const Messaging  = ({}: IMessageProps): React.ReactElement => {
   };
 
   const onSendButtonPress = (): void => {
-    socket.emit('save-message', {
-      room: user.room,
-      nickname: user.nickname,
-      message,
-      updated_at: Date.now()
-    })
     dispatch(
       saveChat({
         room: user.room,
         nickname: user.nickname,
         message
       })
-    )
+    );
     setMessage(null);
     Keyboard.dismiss();
   };
@@ -80,15 +75,17 @@ const Messaging  = ({}: IMessageProps): React.ReactElement => {
   );
 
   useEffect(() => {
+    // get all message on room
     chatByRoom.length === 0 
     && user.room 
     && dispatch(getChatByRoom(user.room));
+    // listen new message on socket
     socket.on('new-message', (res: any) => {
       if (res.room === user.room) {
-        console.log(res)
+        dispatch(saveChatSuccess(res));
       }
-    })
-  }, [message]);
+    });
+  }, []);
 
   return (
     <React.Fragment>
