@@ -33,17 +33,16 @@ const Chat = (state = INIT_STATE, action: any) => {
       // clone the current state
       const clone = JSON.parse(JSON.stringify(state.chatByRoom));
       // check if chet already exist
-      const chatExist = clone.findIndex((i: any) => i._id !== action.payload._id);
-      console.log(chatExist)
-      if (chatExist !== -1) {
+      const chatExist = clone.some((i: any) => i._id === action.payload._id);
+      if (chatExist) {
         return {
           ...state,
-          chatByRoom: [...state.chatByRoom, action.payload]
+          chatByRoom: clone
         };
       } else {
         return {
           ...state,
-          chatByRoom: clone
+          chatByRoom: [...state.chatByRoom, action.payload]
         };
       };
     default:
